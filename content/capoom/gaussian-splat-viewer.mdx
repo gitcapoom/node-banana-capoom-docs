@@ -1,0 +1,66 @@
+# Gaussian Splat Viewer
+
+The Gaussian Splat Viewer (renamed from "SPZ Viewer") renders 3D Gaussian Splatting models using Spark.js. This fork adds significant enhancements: XYZ transform controls, camera animation with keyframes, video export, depth map capture, and COLMAP export.
+
+## Features
+
+### Core Viewer
+| Feature | Description |
+|---|---|
+| **Spark.js rendering** | Real-time 3D Gaussian Splatting visualization |
+| **Cinema camera presets** | Sensor size, lens focal length, and aspect ratio presets |
+| **Orbit controls** | Full 3D navigation with mouse |
+| **Snapshot capture** | Capture current view as an image output |
+
+### Capoom Additions
+| Feature | Description |
+|---|---|
+| **XYZ transform controls** | Position, rotate, and scale the splat in 3D space |
+| **Camera animation timeline** | Record keyframe-based camera paths |
+| **Video export** | Render camera animations to H264/WebM video |
+| **Depth map capture** | Float-precision depth maps with edge-preserving filters |
+| **COLMAP export** | Export camera data in COLMAP format for 3D reconstruction tools |
+
+## Camera Animation
+
+### Creating Keyframes
+
+1. Position the camera at your desired viewpoint
+2. Click **Add Keyframe** to record the current camera position
+3. Move to a new position and add another keyframe
+4. Repeat to build a camera path
+
+### Playing Animations
+
+- Use the **Play** button to preview the animation
+- The camera interpolates smoothly between keyframes
+- Multiple interpolation modes are available (linear, ease-in/out, etc.)
+
+### Exporting Video
+
+1. Set up your keyframe animation
+2. Click **Export Video**
+3. Choose quality settings (resolution, framerate)
+4. The video renders using MediaRecorder and saves to your generations folder
+
+## Depth Map Capture
+
+Depth maps can be captured from the current viewpoint:
+
+- Uses a **float render target** for full precision (no posterization)
+- **Edge-preserving filter** maintains sharp depth boundaries
+- **Morphological dilation** fills holes at edges
+- **Stochastic accumulation** (8 passes) reduces noise and floating artifacts
+- Auto-range normalization maps depth to full 0-255 range
+
+## COLMAP Export
+
+Export camera parameters in COLMAP format for use with external 3D reconstruction tools:
+
+- Camera intrinsics (focal length, principal point, distortion)
+- Camera extrinsics (position and rotation for each keyframe)
+- Downloads as a structured file set via the browser
+
+## Auto-Save
+
+SPZ and panorama files from WorldLabs are automatically saved to the generations folder when received, so they persist even if the session ends.

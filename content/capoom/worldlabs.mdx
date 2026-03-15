@@ -1,0 +1,56 @@
+# WorldLabs Enhancements
+
+This fork enhances the WorldLabs integration with panorama preview, multi-image upload, auto-save, and additional controls.
+
+## Panorama Preview
+
+The WorldLabs World node now includes:
+
+- **Inline panorama preview** — See the generated panorama directly in the node
+- **Azimuth dropdowns** — Set the viewing angle for each input image
+- **Standalone viewer URL** — Open the panorama in a dedicated full-screen viewer page
+
+## Multi-Image Upload
+
+Generate 3D worlds from multiple reference images:
+
+- Upload multiple images with individual **azimuth metadata** for each
+- The executor handles multi-image upload with proper azimuth assignment
+- Images are uploaded as temporary files for the WorldLabs API
+
+## is_pano Checkbox
+
+The World Generator node has an `is_pano` checkbox:
+
+- **Checked** — Tells WorldLabs the input image is already a panorama
+- **Unchecked** — Standard perspective image input
+- Affects how WorldLabs interprets and processes the input
+
+## Auto-Save
+
+SPZ (Gaussian Splatting) and panorama files are **automatically saved to the generations folder** when received from WorldLabs:
+
+- No manual save step needed
+- Files persist even if the browser session ends
+- Saved using the generation ID as the filename
+
+## SessionStorage Fix
+
+Large panorama data previously caused `sessionStorage` quota exceeded errors. This fork handles this by:
+- Checking available storage before writing
+- Gracefully degrading when quota is reached
+- Using alternative storage for oversized data
+
+## Image Output Handle
+
+The WorldLabs node includes an **image output handle** for connecting generated panoramas to downstream nodes:
+
+- Connect to Annotate for editing
+- Connect to Pano Viewer for interactive viewing
+- Connect to Generate Image for further AI processing
+
+## Tips
+
+- Use the standalone viewer page (`/viewer/pano`) for inspecting panoramas at full quality
+- Multi-image input with azimuth metadata produces more consistent 3D worlds
+- Auto-saved SPZ files can be loaded later in the Gaussian Splat Viewer

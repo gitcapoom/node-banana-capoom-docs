@@ -1,0 +1,94 @@
+# Changelog
+
+## Capoom Fork Changes (March 2026)
+
+### Video Compare Node
+- New node for side-by-side video comparison
+- Three modes: Slide (wipe), Blend (opacity), Difference (pixel diff)
+- Synchronized playback with wait-for-both restart
+- Video connection whitelist support
+
+### Image Compare Enhancements
+- Added Blend mode with opacity slider
+- Added Difference mode with opacity slider
+- Mode persists in node data across save/reload
+
+### Output Node Overhaul
+- Replaced 3 separate handles (image/video/audio) with single universal input
+- Added Output Now one-click export with sidecar JSON
+- Sidecar JSON contains trimmed upstream workflow for re-import
+- Blob URL conversion for 3D model export
+- Fingerprint-based Zustand selectors for performance
+- Legacy handle migration on workflow load
+- All media fields cleared during externalization
+
+### GLB Viewer Improvements
+- Three.js-based 3D model viewer
+- File persistence across workflow save/reload via auto-hydration
+- Background pin visibility toggle
+- Context menu: renamed to "3D Viewer", removed "Gaussian Splat Viewer", added "Output"
+
+### Generate 3D Enhancements
+- Settings snapshots stored with each carousel history item
+- History trimmed during workflow save
+
+### Video Input Node
+- Load MP4/WebM from disk
+- Thumbnail auto-generation
+- Lazy playback (loads on click)
+- Externalization during save
+
+### Media Handling
+- Video and audio externalization during workflow save
+- 3D model and audio fields cleared from Output node on save
+- Blob URL to base64 conversion for server operations
+- MediaOverlay component for consistent video viewing
+- mediaCapture and mediaStorage utilities
+
+### Gaussian Splat Viewer
+- Renamed from "SPZ Viewer"
+- XYZ transform controls
+- Camera animation timeline with keyframes
+- Video export (H264/WebM)
+- Depth map capture with float precision
+- Edge-preserving depth filters and morphological dilation
+- COLMAP export
+
+### LAN & Network Access
+- Server binds to 0.0.0.0 for LAN access
+- Web-based directory browser
+- Network path (UNC) support
+- Clipboard fallback for non-secure contexts
+- allowedDevOrigins for cross-machine dev
+
+### Cost Tracking
+- Per-generation cost on all generator nodes
+- Session cost in header
+- fal.ai Cost Estimation API integration
+- Generate3D and GenerateAudio in cost breakdown
+
+### WorldLabs Enhancements
+- Panorama preview with azimuth dropdowns
+- Standalone viewer URL
+- Multi-image upload with azimuth metadata
+- is_pano checkbox
+- Auto-save SPZ and panorama files
+- SessionStorage quota fix
+
+### Bug Fixes
+- Fixed image routing through universal handle (images silently dropped)
+- Fixed context menu edge creation with wrong handle IDs
+- Fixed workflow inflation from unsaved media fields
+- Fixed sidecar JSON bloat from carousel history
+- Fixed Replicate polling timeout for queued predictions
+- Fixed image display using object-contain instead of object-cover
+- Fixed depth map posterization, edge artifacts, and floating splats
+- Fixed mixed path separators and stale project directory
+- Fixed UNC path image loading
+- Removed Apple SHARP node (replaced by sharp-ml on Replicate)
+
+---
+
+## Upstream Changelog
+
+For changes in the base Node Banana project, see the [upstream changelog](https://node-banana-docs.vercel.app/changelog).

@@ -1,0 +1,61 @@
+# Output Node
+
+The Output node in this fork has been significantly enhanced compared to upstream. It now uses a single **universal** input handle that accepts any media type, and includes the **Output Now** export feature.
+
+## Universal Input Handle
+
+Upstream used three separate input handles (image, video, audio). This fork replaces them with a single `universal` handle that automatically detects the content type:
+
+| Content Type | Detection |
+|---|---|
+| Image | Base64 data URL starting with `data:image/` |
+| Video | Data URL starting with `data:video/`, or URLs containing `.mp4`, `.webm`, or `fal.media` |
+| Audio | Detected by audio handle type from upstream node |
+| 3D Model | Detected by 3D handle type from upstream node |
+
+### Why Universal?
+
+- Simpler connections — no need to find the right handle
+- Works with Router nodes that pass any type
+- Reduces edge clutter on complex workflows
+
+### Legacy Migration
+
+Workflows saved with the old separate handles are automatically migrated on load. Edges targeting `image`, `video`, or `audio` handles are redirected to `universal`.
+
+## Content Display
+
+The Output node displays content differently depending on type:
+
+| Type | Display |
+|---|---|
+| Image | Full image preview with aspect-fit scaling, lightbox on click |
+| Video | Placeholder icon (video plays in MediaOverlay on click) |
+| Audio | Audio player with waveform |
+| 3D Model | Placeholder icon |
+
+## Output Now
+
+See the dedicated [Output Now](/docs/capoom/output-now) page for full documentation on the export feature.
+
+## Performance Optimizations
+
+The Output node uses **fingerprint-based selectors** to avoid performance issues with large content:
+
+- Instead of comparing full base64 strings (which can be megabytes), the Zustand selector creates a short fingerprint: `{length}:{first 80 chars}`
+- This prevents the React Flow canvas from becoming sluggish when the Output node contains large 3D models or video data
+- The full content is only read when the fingerprint changes
+
+## Context Menu
+
+When dragging from a source node's output handle, the Output node appears in the connection dropdown for:
+- Image outputs
+- Video outputs
+- Audio outputs
+- 3D outputs
+
+All four create an edge to the `universal` handle.
+
+## Workflow Save Behavior
+
+During workflow save, the Output node's data is **externalized** — all media fields (`image`, `video`, `model3d`, `audio`) are cleared from the JSON file. Outputs are re-pulled from upstream nodes on reload, keeping workflow files small.

@@ -1,0 +1,66 @@
+# Output Now (Export Pipeline)
+
+Output Now is a one-click export feature on the Output node. It saves the connected media to a user-chosen directory along with a sidecar JSON file containing the upstream workflow.
+
+## How It Works
+
+1. **Connect** any media-producing node to an Output node
+2. The **"Output Now"** button appears when content is available
+3. **Click Output Now** — a file picker dialog opens
+4. **Choose a directory** — the media and sidecar JSON are saved
+
+## What Gets Saved
+
+### Media File
+The actual content is saved as a file:
+
+| Content Type | File Format |
+|---|---|
+| Image | `.png`, `.jpg`, or `.webp` (detected from data URL) |
+| Video | `.mp4` or `.webm` |
+| Audio | `.mp3`, `.wav`, etc. |
+| 3D Model | `.glb` |
+
+### Sidecar JSON
+A `.json` file is saved alongside the media, containing:
+- The **upstream workflow** — all nodes and edges that feed into the Output node
+- Node settings, prompts, and parameters at the time of export
+- Connection topology
+
+The sidecar JSON is **trimmed** to keep it clean:
+- Only upstream nodes are included (not the entire workflow)
+- Carousel history from generator nodes is cleared
+- The Output node itself is excluded
+- Large media data (images, videos) is cleared from node data
+
+## Re-Importing Sidecar JSON
+
+You can reconstruct the upstream pipeline by dragging the sidecar `.json` file onto the canvas:
+
+1. **Drag the JSON file** into the browser window
+2. The upstream nodes and connections are recreated
+3. Nodes are positioned at the drop point (with nudging to avoid overlaps)
+4. You can re-run the workflow to reproduce the result
+
+This makes Output Now useful for:
+- Archiving successful generations with their full recipe
+- Sharing workflows with collaborators
+- Version control of generation pipelines
+
+## Blob URL Handling
+
+Some content (especially 3D models) uses browser blob URLs that a server can't fetch. Output Now handles this by:
+
+1. Detecting `blob:` URLs
+2. Fetching the blob client-side
+3. Converting to base64 data URL
+4. Sending the base64 to the server for saving
+
+This happens transparently — you don't need to do anything special for 3D model export.
+
+## Tips
+
+- Output Now works with **any media type** — images, videos, audio, and 3D models
+- The sidecar JSON is human-readable and can be edited before re-importing
+- Use Output Now for final deliverables while keeping your main workflow lightweight
+- The Output node's media fields are cleared during workflow auto-save, so Output Now is the best way to persistently save results

@@ -1,0 +1,34 @@
+# Capoom Fork Overview
+
+This section documents everything that's new or changed in the Capoom fork compared to [upstream Node Banana](https://github.com/shrimbly/node-banana).
+
+## New Nodes
+
+| Node | Category | Description |
+|---|---|---|
+| [Video Compare](/docs/capoom/video-compare) | Process | Compare two videos with Slide, Blend, or Difference modes |
+| [Video Input](/docs/capoom/video-input) | Input | Load video files from disk with thumbnail preview |
+
+## Enhanced Nodes
+
+| Node | What Changed |
+|---|---|
+| [Image Compare](/docs/capoom/image-compare-modes) | Added Blend and Difference modes with opacity control |
+| [Output Node](/docs/capoom/output-node) | Universal input handle, Output Now button, performance optimizations |
+| [GLB Viewer](/docs/capoom/glb-viewer) | Three.js viewer, file persistence, background pin toggle |
+| [Gaussian Splat Viewer](/docs/capoom/gaussian-splat-viewer) | Camera animation timeline, video export, depth maps, COLMAP |
+| [Generate 3D](/docs/capoom/generate-3d) | Carousel history with settings snapshots |
+
+## New Features
+
+| Feature | Description |
+|---|---|
+| [Output Now](/docs/capoom/output-now) | One-click export with sidecar JSON containing the upstream workflow |
+| [LAN Access](/docs/capoom/lan-access) | Network path support, web directory browser, 0.0.0.0 binding |
+| [Cost Tracking](/docs/capoom/cost-tracking) | Per-generation cost on nodes, session total in header |
+| [Media Handling](/docs/capoom/media-handling) | Video/audio externalization, blob URL conversion, auto-restore |
+| [WorldLabs](/docs/capoom/worldlabs) | Panorama preview, multi-image upload, auto-save SPZ files |
+
+## Removed from Upstream
+
+- **Apple SHARP node** — Replaced by `sharp-ml` on Replicate

@@ -1,0 +1,57 @@
+# Video Input Node
+
+The Video Input node loads video files from disk for use in workflows. It supports MP4, WebM, and other browser-compatible video formats.
+
+## Adding the Node
+
+- **Floating Action Bar** — Input group → Video Input
+- **Context Menu** — Available as a video source in connection drop menus
+
+## Usage
+
+1. Click the node to open a file picker
+2. Select a video file (MP4, WebM, etc.)
+3. A thumbnail preview generates automatically
+4. The video output handle becomes active
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Thumbnail preview** | Auto-generated from the first frame of the video |
+| **Lazy playback** | Full video only loads when you click to preview (saves memory) |
+| **File size limit** | Maximum 500MB per video file |
+| **Format support** | Any format the browser can play (MP4, WebM, OGG) |
+
+## Output Handle
+
+| Handle | Type | Position |
+|---|---|---|
+| `video` | video | Right side |
+
+## Connection Targets
+
+The video output can connect to:
+- Generate Video (as input for video-to-video generation)
+- Video Stitch (as a clip)
+- Video Trim (to trim start/end)
+- Ease Curve (for speed ramping)
+- Frame Grab (to extract a still frame)
+- Video Compare (for A/B comparison)
+- Output (for export)
+- Router (for routing)
+
+## Workflow Save Behavior
+
+Video files are **externalized** during workflow save:
+- The actual video data is saved to a separate file on disk
+- The workflow JSON stores only a reference (`videoFileRef`)
+- On reload, the thumbnail restores immediately but the full video lazy-loads on demand
+
+This keeps workflow files small even when working with large video files.
+
+## Tips
+
+- Use Video Input to load reference footage for video-to-video generation
+- Connect two Video Input nodes to a Video Compare node for side-by-side comparison
+- The Frame Grab node can extract a single frame from a Video Input for use in image workflows

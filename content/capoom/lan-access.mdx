@@ -1,0 +1,58 @@
+# LAN & Network Access
+
+This fork is configured for use on a LAN-accessible workstation, allowing you to access Node Banana from other machines on your local network.
+
+## Server Binding
+
+The dev server binds to `0.0.0.0` instead of `localhost`, making it accessible from any machine on your network:
+
+```bash
+npm run dev
+# Accessible at http://your-machine-ip:3000
+```
+
+### Allowed Dev Origins
+
+The `allowedDevOrigins` configuration is set up to accept connections from other machines. If you get CORS errors from a specific machine, you may need to add its hostname to the config.
+
+## Network Path Support
+
+### Project Setup
+
+When configuring your project directory in Project Setup, you can use network paths:
+
+```
+\\server\share\projects\my-workflow
+```
+
+This allows workflows and generations to be stored on network-attached storage (NAS) or shared drives.
+
+### Path Handling Fixes
+
+This fork fixes several path-related issues:
+- **Mixed path separators** — Forward and backslashes are handled consistently
+- **UNC path image loading** — Images from `\\server\share\...` paths load correctly
+- **Stale project directory** — Changing the project path in settings now takes effect immediately
+
+## Web-Based Directory Browser
+
+The native OS file picker can't browse network paths in all contexts. This fork includes a **web-based directory browser** that replaces the native picker:
+
+- Browse any directory accessible from the server
+- Navigate into subdirectories
+- Works with UNC network paths
+- No browser security restrictions
+
+## Clipboard Fallback
+
+For non-secure contexts (HTTP instead of HTTPS), some browser APIs aren't available. This fork handles this gracefully:
+
+- File paths are copied to clipboard instead of opening in the OS
+- A notification tells you the path was copied
+- This works on LAN connections where HTTPS isn't configured
+
+## Tips
+
+- Use a static IP or hostname for your workstation so other machines can reliably connect
+- Store workflows on a shared drive so they're accessible from any machine
+- The server port defaults to 3000 but can be changed with the `PORT` environment variable

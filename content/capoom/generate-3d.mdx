@@ -1,0 +1,43 @@
+# Generate 3D Node
+
+The Generate 3D node creates 3D models (GLB format) from images and text prompts. This fork adds carousel history with settings snapshots.
+
+## Capoom Additions
+
+### Settings Snapshots
+
+Each generation in the carousel history now stores a **snapshot of the settings** that were active at generation time:
+
+- Model selection
+- Provider
+- All parameter values
+
+This means you can browse through previous generations and see exactly what settings produced each result, making it easier to reproduce or iterate on good outputs.
+
+### Carousel History
+
+Like the upstream Generate Image node, the Generate 3D node now maintains a history carousel:
+
+- Browse through previous generations with left/right arrows
+- Each item stores the output 3D model, thumbnail, and settings snapshot
+- History survives within a session but is trimmed during workflow save to keep files small
+
+### Context Menu
+
+The 3D output handle context menu has been updated:
+
+| Option | Description |
+|---|---|
+| **3D Viewer** | Opens in the GLB Viewer (renamed from "GLB Viewer") |
+| **Output** | Connects to an Output node for export |
+
+The "Gaussian Splat Viewer" option was removed from this menu since splat viewing is a separate pipeline from GLB model viewing.
+
+## Workflow Save
+
+During save, the carousel history is trimmed:
+- `model3dHistory` is cleared
+- `selectedModel3dHistoryIndex` is reset
+- Input image refs and thumbnail refs are cleared
+
+This prevents the workflow JSON from growing with each generation. The current active model is preserved via its reference file.

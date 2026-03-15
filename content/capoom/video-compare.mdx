@@ -1,0 +1,75 @@
+# Video Compare Node
+
+The Video Compare node lets you compare two videos side by side using three different comparison modes. It's useful for comparing different generation results, checking before/after effects, or evaluating model outputs.
+
+## Adding the Node
+
+- **Floating Action Bar** — Process group → Video Compare
+- **Context Menu** — Drag from a video output handle and select "Video Compare" from the dropdown
+
+## Inputs
+
+The node has two video input handles on the left side:
+
+| Handle | Position | Label |
+|---|---|---|
+| `video` | Top (35%) | A |
+| `video-1` | Bottom (65%) | B |
+
+When connecting via drag, the node automatically assigns the first connection to **A** and the second to **B**. If you connect multiple nodes at once (batch connection), handles alternate automatically.
+
+## Comparison Modes
+
+Three mode buttons appear at the top of the node: **Slide**, **Blend**, and **Diff**.
+
+### Slide Mode
+
+A vertical wipe slider divides the view. Video A shows on the left of the slider, Video B on the right.
+
+- **Drag the slider** left/right to reveal more of either video
+- The slider uses CSS `clip-path` so both videos render at full resolution without scaling
+- Corner labels show "A" (left) and "B" (right)
+
+### Blend Mode
+
+Video B is overlaid on top of Video A with adjustable opacity.
+
+- **Opacity slider** controls how transparent Video B appears (0% = only A, 100% = only B)
+- Useful for checking alignment and subtle differences between two generations
+- Corner labels show "A" and "B (75%)" etc.
+
+### Difference Mode
+
+Video B is overlaid with CSS `mix-blend-mode: difference`. Identical pixels appear black; differences appear as bright colors.
+
+- **Opacity slider** controls the strength of the difference visualization
+- At 100% opacity, pure black means the frames are identical at that pixel
+- Useful for spotting subtle motion or color differences between two versions
+- Corner labels show "A" and "Diff (50%)" etc.
+
+## Playback Synchronization
+
+Both videos play simultaneously with synchronized playback:
+
+- **Auto-play** — Both videos start playing when the node receives content
+- **Synced controls** — Play/pause/seek on Video A automatically syncs Video B
+- **Wait-for-both restart** — When one video is shorter than the other, it pauses at its last frame and waits. When both videos have finished, they restart together from frame 0. This ensures they always start in sync regardless of length differences.
+- **No native looping** — The node manages restart timing instead of using the browser's `loop` attribute
+
+## Connection Sources
+
+The Video Compare node accepts connections from any node that outputs video:
+
+- Video Input
+- Generate Video
+- Video Stitch
+- Video Trim
+- Ease Curve
+- Router (when passing video)
+
+## Tips
+
+- **Quick A/B testing**: Connect two Generate Video nodes with different prompts to the same Video Compare to see which result looks better
+- **Before/after**: Connect an original video to A and a processed version to B
+- **Difference mode** is particularly useful for checking temporal consistency — flickering or inconsistent areas light up as bright pixels
+- The node has no output handles — it's a viewer only

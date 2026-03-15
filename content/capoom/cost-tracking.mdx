@@ -1,0 +1,49 @@
+# Cost Tracking
+
+This fork adds per-generation cost display on all generator nodes and a session cost accumulator in the header.
+
+## Per-Generation Cost
+
+After each generation completes, the cost is displayed directly on the generator node:
+
+- **Generate Image** — Shows cost per image (e.g., "$0.039")
+- **Generate Video** — Shows cost per video
+- **Generate 3D** — Shows cost per 3D model
+- **Generate Audio** — Shows cost per audio clip
+
+### Cost Estimation
+
+For fal.ai models, costs are calculated using the **fal.ai Cost Estimation API**, which provides accurate per-run pricing based on the specific model and parameters used.
+
+For other providers, approximate costs are shown based on the model tier.
+
+## Session Cost
+
+The total accumulated cost for the current session is displayed in the **header bar**:
+
+- Resets when you reload the page
+- Shows the sum of all generations across all nodes
+- Visible for non-Gemini workflows (Gemini pricing varies by token count)
+
+## Workflow Cost Breakdown
+
+The cost dialog (accessible from the header) shows a breakdown by:
+
+- **Provider** — Which API service was used
+- **Node** — Which generator node incurred the cost
+- **Total** — Cumulative session total
+
+### Included Nodes
+
+The cost breakdown includes all generator types:
+- Generate Image
+- Generate Video
+- Generate 3D
+- Generate Audio
+
+## Tips
+
+- Use cheaper models (like `nano-banana` at $0.039/image) for iteration
+- Switch to premium models (like `nano-banana-pro` at $0.134-$0.240/image) only for final renders
+- Lock groups to prevent accidental re-execution of expensive nodes
+- The cost display helps you estimate the total cost of a batch workflow before running it at scale

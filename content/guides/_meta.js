@@ -1,0 +1,6 @@
+export default {
+  'ai-quickstart': 'AI Quickstart',
+  'models-pricing': 'Models & Pricing',
+  'best-practices': 'Best Practices',
+  troubleshooting: 'Troubleshooting',
+}

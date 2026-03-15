@@ -1,0 +1,86 @@
+# Media Handling
+
+This fork significantly improves how large media files (video, audio, 3D models) are handled during workflow save and reload.
+
+## The Problem
+
+In upstream, large media content (especially videos and 3D models) is stored inline in the workflow JSON as base64 data URLs. This causes:
+
+- **Huge workflow files** — A single video can add megabytes to the JSON
+- **Slow saves** — Writing large JSON files takes time
+- **Memory pressure** — Keeping all content in memory strains the browser
+- **Lost content** — Blob URLs become invalid after page reload
+
+## Externalization
+
+During workflow save, media content is **externalized** — saved to separate files on disk while the workflow JSON stores only a small reference.
+
+### What Gets Externalized
+
+| Node Type | Fields Externalized |
+|---|---|
+| Generate Image | `outputImage` → saved as image file, stored as `outputImageRef` |
+| Generate Video | `outputVideo` → saved as video file, stored as `outputVideoRef` |
+| Generate Audio | `outputAudio` → saved as audio file |
+| Generate 3D | 3D model URL preserved (already a URL) |
+| Video Input | `videoFile` → saved as video file, stored as `videoFileRef` |
+| Image Input | `image` → saved as image file, stored as `imageRef` |
+| Output | All media fields cleared (re-pulled from upstream on load) |
+| GLB Viewer | Model saved to disk, stored as `model3dRef` |
+
+### How It Works
+
+1. **On save**: The workflow is cloned (in-memory state is NOT modified)
+2. Each node's media data is extracted and saved to the generations directory
+3. The clone's data fields are replaced with file references
+4. The lightweight JSON is written to disk
+
+The key point: **externalization only modifies the file copy, not the in-memory state**. Your running workflow is unaffected by auto-save.
+
+## Hydration (Restore on Load)
+
+When a workflow is loaded, nodes **hydrate** their content from the reference files:
+
+### Eager Hydration
+These nodes restore their content automatically on mount:
+- **Generate Image** — `outputImage` restored from `outputImageRef`
+- **GLB Viewer** — 3D model restored from `model3dRef`
+
+### Lazy Hydration
+These nodes only load content when you interact with them (click to preview):
+- **Generate Video** — Video loads on overlay click
+- **Video Input** — Video loads on overlay click
+
+This saves memory by not loading all videos into the browser at once.
+
+## Blob URL Conversion
+
+Some content uses browser blob URLs (`blob:http://localhost:3000/...`). These URLs are:
+- **Session-specific** — Invalid after page reload
+- **Client-only** — Server APIs can't fetch them
+
+This fork handles blob URLs by converting them to base64 data URLs before any server operation:
+
+```
+blob:http://localhost:3000/abc123
+  → fetch() → Blob → FileReader.readAsDataURL()
+  → data:model/gltf-binary;base64,AAAA...
+```
+
+This conversion happens automatically in:
+- Output Now export
+- Workflow save/externalization
+- Any API call that needs to send media to the server
+
+## MediaOverlay Component
+
+A shared `MediaOverlay` component provides consistent video/image viewing across nodes:
+- Full-screen overlay with close button
+- Video playback controls
+- Used by Video Input, Generate Video, and other video-producing nodes
+
+## Tips
+
+- Keep your generations directory on fast storage (SSD) for quick hydration
+- If a workflow file seems large, check that externalization is working — the JSON should be under 1MB for most workflows
+- Blob URLs in the console are normal during a session — they're converted on save

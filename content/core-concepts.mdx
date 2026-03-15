@@ -1,0 +1,33 @@
+# Core Concepts
+
+For the full explanation of core concepts (canvas, nodes, connections, handles, execution, groups), see the [upstream documentation](https://node-banana-docs.vercel.app/core-concepts).
+
+## Handle Types
+
+Node Banana uses type-safe connections. Each handle has a type, and only matching types can connect:
+
+| Handle Type | Color | Data Format | Notes |
+|---|---|---|---|
+| Image | Green | Base64 PNG/JPG/WebP | Multiple connections allowed |
+| Text | Blue | String | Single connection |
+| Video | Purple | Data URL or blob URL | Multiple connections allowed |
+| Audio | Teal | Data URL | Multiple connections allowed |
+| 3D Model | Orange | GLB URL or blob URL | Single connection |
+| Ease Curve | Yellow | Bezier control points | Between ease curve nodes only |
+| Universal | White | Any media type | Output node only — accepts image, video, audio, 3D |
+
+### Universal Handle (Capoom Addition)
+
+The Output node in this fork uses a single **universal** input handle instead of separate image/video/audio handles. It automatically detects the content type from the upstream node and routes accordingly.
+
+## Workflow Execution
+
+Workflows execute via topological sorting. Independent branches run in parallel. You can run:
+
+- **Full workflow** — Ctrl+Enter
+- **Selected nodes** — Select nodes and run
+- **Single node** — Click the play button on any node
+
+## Auto-Save
+
+Workflows auto-save every 90 seconds. In this fork, **media content is externalized** during save — large video/audio/3D data is saved to separate files on disk while the workflow JSON stays small. See [Media Handling](/docs/capoom/media-handling) for details.

@@ -1,0 +1,15 @@
+export default {
+  index: 'Overview',
+  'video-compare': 'Video Compare Node',
+  'image-compare-modes': 'Image Compare Modes',
+  'output-node': 'Output Node',
+  'video-input': 'Video Input Node',
+  'glb-viewer': 'GLB Viewer Node',
+  'gaussian-splat-viewer': 'Gaussian Splat Viewer',
+  'generate-3d': 'Generate 3D Node',
+  'output-now': 'Output Now (Export)',
+  'lan-access': 'LAN & Network Access',
+  'cost-tracking': 'Cost Tracking',
+  'media-handling': 'Media Handling',
+  'worldlabs': 'WorldLabs Enhancements',
+}

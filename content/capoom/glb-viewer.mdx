@@ -1,0 +1,57 @@
+# GLB Viewer Node
+
+The GLB Viewer displays 3D models (GLB format) using Three.js with orbit controls. This fork adds file persistence across workflow save/reload and a background pin visibility toggle.
+
+## Features
+
+| Feature | Description |
+|---|---|
+| **Three.js rendering** | Full 3D orbit viewer with rotation, zoom, and pan |
+| **Auto-rotation** | Models slowly rotate by default for preview |
+| **Background pin toggle** | Show/hide the background color pin |
+| **File persistence** | Models survive workflow save and reload |
+| **Snapshot capture** | Capture the current view as an image |
+
+## Input Handle
+
+| Handle | Type | Position |
+|---|---|---|
+| `3d` | 3d (orange) | Left side |
+
+The node accepts GLB model URLs from:
+- Generate 3D node
+- Router (when passing 3D data)
+
+## Orbit Controls
+
+- **Left click + drag** — Rotate the model
+- **Right click + drag** — Pan the view
+- **Scroll wheel** — Zoom in/out
+- **Double click** — Reset the view
+
+The controls are wrapped in `nodrag nopan nowheel` classes so mouse interactions don't accidentally move the node or pan the canvas.
+
+## Auto-Restore on Reload
+
+In upstream, 3D models would disappear after saving and reloading a workflow because the GLB data (often a blob URL) was lost.
+
+This fork fixes this by:
+1. **Saving the GLB data** to a separate file on disk during workflow save
+2. **Storing a reference** (`model3dRef`) in the workflow JSON
+3. **Auto-restoring** the model from the reference file on mount
+
+The restore happens automatically — the viewer shows the model as soon as the workflow loads.
+
+## Context Menu
+
+When dragging from a 3D output handle, the context menu shows:
+- **3D Viewer** (renamed from "GLB Viewer" for clarity)
+- **Output**
+
+The "Gaussian Splat Viewer" option has been removed from this menu since it's a separate specialized viewer.
+
+## Tips
+
+- The GLB Viewer is best for inspecting generated 3D models before exporting
+- Use the snapshot feature to capture specific angles for downstream image workflows
+- Connect a Generate 3D node directly to the GLB Viewer to see results immediately after generation

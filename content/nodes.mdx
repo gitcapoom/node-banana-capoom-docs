@@ -1,0 +1,74 @@
+# Nodes Reference
+
+For detailed documentation on upstream nodes, see the [upstream nodes reference](https://node-banana-docs.vercel.app/nodes).
+
+This page provides a complete reference of all nodes available in the Capoom fork, including upstream nodes and Capoom additions.
+
+## Input Nodes
+
+| Node | Shortcut | Outputs | Description |
+|---|---|---|---|
+| Image Input | Shift+I | image | Load PNG, JPG, WebP from disk (max 10MB) |
+| Audio Input | — | audio | Load audio files with waveform visualization |
+| Video Input | — | video | Load MP4, WebM with thumbnail preview. [Details](/docs/capoom/video-input) |
+| Prompt | Shift+P | text | Text prompt with variable naming support |
+| Array | — | text | Array of text values |
+| Prompt Constructor | — | text | Template-based prompts with `@variable` placeholders |
+
+## Generator Nodes
+
+| Node | Shortcut | Inputs | Outputs | Description |
+|---|---|---|---|---|
+| Generate Image | Shift+G | image, text | image | AI image generation (Gemini, Replicate, fal.ai) |
+| Generate Video | Shift+V | image, text | video | Video generation from image + prompt |
+| Generate 3D | — | image, text | 3d | 3D model generation (GLB). [Details](/docs/capoom/generate-3d) |
+| Generate Audio | — | text | audio | Audio/music generation |
+| LLM Generate | Shift+L | text, image | text | Text generation (Gemini, OpenAI) |
+
+## Process Nodes
+
+| Node | Inputs | Outputs | Description |
+|---|---|---|---|
+| Annotate | image | image | Full-screen drawing editor (rectangles, circles, arrows, freehand, text) |
+| Mask Painter | image | image | Inpainting mask editor with brush, eraser, shapes |
+| Split Grid | image | reference | Divide images into grid layouts (2x2 to 2x5) |
+| Video Stitch | video, audio | video | Concatenate video clips with optional audio and looping |
+| Video Trim | video | video | Trim video start and end points |
+| Ease Curve | video, easeCurve | video, easeCurve | Speed ramping with 30+ easing presets and custom bezier curves |
+| Frame Grab | video | image | Extract a single frame from video |
+| Image Compare | image x2 | — | Slide, Blend, and Difference comparison modes. [Details](/docs/capoom/image-compare-modes) |
+| Video Compare | video x2 | — | Slide, Blend, and Difference comparison modes. [Details](/docs/capoom/video-compare) |
+
+## Viewer Nodes
+
+| Node | Inputs | Description |
+|---|---|---|
+| GLB Viewer | 3d | Three.js orbit viewer with auto-rotation. [Details](/docs/capoom/glb-viewer) |
+| Gaussian Splat Viewer | 3d | Spark.js splat viewer with camera animation and video export. [Details](/docs/capoom/gaussian-splat-viewer) |
+| Pano Viewer | image | 360 panorama viewer |
+| Pano Editor | image | Panorama compositing with WebGL |
+| Pano Crop | image | Perspective crop capture from panorama |
+
+## Output Nodes
+
+| Node | Inputs | Description |
+|---|---|---|
+| Output | universal | Export any media type with Output Now. [Details](/docs/capoom/output-node) |
+| Output Gallery | image | Collect multiple images in thumbnail grid with lightbox |
+
+## Route Nodes
+
+| Node | Inputs | Outputs | Description |
+|---|---|---|---|
+| Router | any | any | Pass-through routing for any data type |
+| Switch | any | switched | Toggle individual outputs on/off |
+| Conditional Switch | text | rule-based | Route text by pattern matching rules |
+
+## Common Node Features
+
+All nodes support:
+- **Custom titles** — Double-click the header to rename
+- **Comments** — Add notes with navigation markers
+- **Resizing** — Drag node edges to resize
+- **Execution controls** — Play button for individual execution
+- **Error states** — Red border indicates errors

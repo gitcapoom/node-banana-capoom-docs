@@ -1,0 +1,44 @@
+# Best Practices
+
+For general best practices, see the [upstream guide](https://node-banana-docs.vercel.app/guides/best-practices).
+
+## Capoom-Specific Best Practices
+
+### Media Management
+
+- **Keep workflows small** — The externalization system handles this automatically, but avoid embedding huge base64 strings in prompt nodes
+- **Use a fast storage path** — Set your project directory on an SSD for quick save/load cycles
+- **Clean up generations** — Old generation files accumulate in the generations directory; periodically clean out files you no longer need
+
+### Video Workflows
+
+- **Use Video Input nodes** for reference footage rather than pasting video URLs
+- **Compare generations** with the Video Compare node before selecting a final output
+- **Lazy loading** — Video nodes don't load full video into memory until you click them; this is intentional for performance
+
+### 3D Workflows
+
+- **GLB Viewer** auto-restores models after reload — no need to re-generate
+- **Output Now** handles blob URL conversion automatically for 3D exports
+- **Trim history** happens on save — your in-memory carousel is preserved during the session
+
+### Network Workflows
+
+- **Use network paths** (`\\server\share\...`) for shared project directories
+- **Pin your workstation's IP** so other machines can reliably access the server
+- **Browser clipboard** works as a fallback when `file://` URLs aren't available
+
+### Cost Control
+
+- **Iterate with cheap models** (nano-banana at $0.039) before switching to pro models
+- **Lock groups** to prevent re-execution of expensive nodes
+- **Watch the session cost** in the header to stay within budget
+- **Output Now** saves results permanently — you don't need to re-generate
+
+### Output Workflow
+
+1. Build your pipeline with generator nodes
+2. Connect the final generator to an **Output node**
+3. Run the workflow
+4. Click **Output Now** to save the result and its recipe (sidecar JSON)
+5. The sidecar JSON can reconstruct the pipeline later if needed

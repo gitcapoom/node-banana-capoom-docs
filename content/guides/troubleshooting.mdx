@@ -1,0 +1,88 @@
+# Troubleshooting
+
+For general troubleshooting, see the [upstream guide](https://node-banana-docs.vercel.app/guides/troubleshooting).
+
+## Capoom-Specific Issues
+
+### Video Compare node shows no video
+
+**Symptom**: Videos are connected but nothing plays.
+
+**Solutions**:
+- Ensure the source node has actually generated/loaded a video (check for a thumbnail)
+- Video nodes use lazy loading — click the source node's thumbnail to load the video first
+- Check the browser console for media errors
+
+### Output Now button doesn't appear
+
+**Symptom**: Output node is connected but "Output Now" is missing.
+
+**Solutions**:
+- Ensure the upstream node has content (run the workflow first)
+- Check that the edge connects to the `universal` handle (not a legacy `image`/`video` handle)
+- For video generators, the video must be fully loaded (not just the thumbnail)
+- Try disconnecting and reconnecting the edge
+
+### 3D model lost after reload
+
+**Symptom**: GLB Viewer is empty after saving and reopening the workflow.
+
+**Solutions**:
+- Ensure you have a valid project directory set (the model is saved there)
+- Check the generations directory for `.glb` files
+- The auto-restore happens on mount — wait a moment after loading
+
+### Workflow file is too large
+
+**Symptom**: The workflow JSON is many megabytes.
+
+**Solutions**:
+- Ensure auto-save is working (externalization happens during save)
+- Check that Output node data is being cleared — open the JSON and look for large base64 strings
+- Manually trigger a save to force externalization
+
+### Canvas is sluggish with Output node
+
+**Symptom**: The canvas becomes slow/laggy when an Output node has content.
+
+**Solutions**:
+- This was a known bug (fixed) caused by Zustand selectors comparing megabyte-long strings
+- Update to the latest version
+- If still slow, disconnect the Output node temporarily
+
+### LAN access not working
+
+**Symptom**: Can't reach the server from another machine.
+
+**Solutions**:
+- Verify the server shows "listening on 0.0.0.0:3000" (not "localhost:3000")
+- Check your firewall allows incoming connections on port 3000
+- Use the machine's IP address, not "localhost"
+- For Windows, you may need to add a firewall exception
+
+### Network path not found
+
+**Symptom**: `\\server\share\...` path gives an error.
+
+**Solutions**:
+- Ensure the network share is accessible from the machine running the server
+- Use the machine name, not IP, for UNC paths
+- Check that the share permissions allow read/write
+
+### Video playback out of sync in Video Compare
+
+**Symptom**: Videos in Blend/Difference mode are not aligned.
+
+**Solutions**:
+- The sync system ties to Video A's controls — use its play/pause/seek
+- If videos have different framerates, minor drift is expected
+- Seeking resets the sync — scrub to the start and play again
+
+### Cost not showing on nodes
+
+**Symptom**: Generator nodes don't display cost after generation.
+
+**Solutions**:
+- Cost tracking requires fal.ai API key for accurate estimates
+- Gemini costs are approximated from model tier
+- Check the browser console for cost estimation API errors

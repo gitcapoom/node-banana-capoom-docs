@@ -1,0 +1,59 @@
+# Image Compare — Blend & Difference Modes
+
+The upstream Image Compare node only has a slider mode. This fork adds two additional comparison modes: **Blend** and **Difference**, both with adjustable opacity.
+
+## Mode Selector
+
+Three buttons appear at the top of the node:
+
+| Mode | Description |
+|---|---|
+| **Slide** | Original upstream behavior — draggable vertical slider divides two images |
+| **Blend** | Image B overlaid on Image A with adjustable opacity |
+| **Diff** | Image B overlaid with `mix-blend-mode: difference` |
+
+## Blend Mode
+
+Blend mode overlays Image B on top of Image A with a controllable opacity slider.
+
+- **Opacity 0%** — Only Image A visible
+- **Opacity 50%** — Both images blended equally
+- **Opacity 100%** — Only Image B visible
+
+This is useful for:
+- Checking alignment between two generations
+- Comparing subtle color or composition differences
+- Fading between two versions to evaluate which looks better
+
+## Difference Mode
+
+Difference mode uses CSS `mix-blend-mode: difference` to highlight pixel-level differences between the two images.
+
+- **Black pixels** — Identical between A and B
+- **Bright pixels** — Different between A and B
+- The **opacity slider** controls the strength of the effect
+
+This is useful for:
+- Spotting small changes between two similar images
+- Verifying that inpainting or annotation changes only affected the intended area
+- Quality control when comparing re-generations
+
+## Opacity Slider
+
+The opacity slider appears only in Blend and Difference modes (it's hidden in Slide mode since the slider position serves a similar purpose).
+
+- Range: 0% to 100%
+- Step: 1%
+- The current value is shown numerically next to the slider
+- The value persists in the node data and survives save/reload
+
+## Inputs
+
+Same as upstream — two image input handles:
+
+| Handle | Label |
+|---|---|
+| `image` | A |
+| `image-1` | B |
+
+The node accepts connections from any image-producing node: Image Input, Generate Image, Annotate, Split Grid, Frame Grab, etc.
