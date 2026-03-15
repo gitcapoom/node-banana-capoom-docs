@@ -4,7 +4,7 @@ export default {
   'image-compare-modes': 'Image Compare Modes',
   'output-node': 'Output Node',
   'video-input': 'Video Input Node',
-  'glb-viewer': 'GLB Viewer Node',
+  'glb-viewer': '3D Viewer Node',
   'gaussian-splat-viewer': 'Gaussian Splat Viewer',
   'generate-3d': 'Generate 3D Node',
   'output-now': 'Output Now (Export)',

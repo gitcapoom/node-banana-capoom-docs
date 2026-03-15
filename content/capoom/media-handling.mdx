@@ -26,7 +26,7 @@ During workflow save, media content is **externalized** — saved to separate fi
 | Video Input | `videoFile` → saved as video file, stored as `videoFileRef` |
 | Image Input | `image` → saved as image file, stored as `imageRef` |
 | Output | All media fields cleared (re-pulled from upstream on load) |
-| GLB Viewer | Model saved to disk, stored as `model3dRef` |
+| 3D Viewer | Model saved to disk, stored as `model3dRef` |
 
 ### How It Works
 
@@ -44,7 +44,7 @@ When a workflow is loaded, nodes **hydrate** their content from the reference fi
 ### Eager Hydration
 These nodes restore their content automatically on mount:
 - **Generate Image** — `outputImage` restored from `outputImageRef`
-- **GLB Viewer** — 3D model restored from `model3dRef`
+- **3D Viewer** — 3D model restored from `model3dRef`
 
 ### Lazy Hydration
 These nodes only load content when you interact with them (click to preview):
